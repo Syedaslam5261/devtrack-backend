@@ -1,5 +1,7 @@
 package com.devtrack.service;
 
+import com.devtrack.dto.CreateUserRequest;
+import com.devtrack.dto.UserResponse;
 import com.devtrack.entity.User;
 import com.devtrack.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,35 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
+    public UserResponse createUser(CreateUserRequest request) {
+
+
+
+            User user = new User();
+
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPassword(request.getPassword());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setCollege(request.getCollege());
+            user.setBranch(request.getBranch());
+            user.setYear(request.getYear());
+
+            User savedUser = userRepository.save(user);
+
+            UserResponse response = new UserResponse();
+
+            response.setId(savedUser.getId());
+            response.setName(savedUser.getName());
+            response.setEmail(savedUser.getEmail());
+            response.setPhoneNumber(savedUser.getPhoneNumber());
+            response.setCollege(savedUser.getCollege());
+            response.setBranch(savedUser.getBranch());
+            response.setYear(savedUser.getYear());
+
+            return response;
+        }
+
 
     public List<User> createUsers(List<User> users) {
         return userRepository.saveAll(users);
